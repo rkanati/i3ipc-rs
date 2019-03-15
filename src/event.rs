@@ -8,7 +8,7 @@ use std::str::FromStr;
 use event::inner::*;
 
 /// An event passed back from i3.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Event {
     WorkspaceEvent(WorkspaceEventInfo),
     OutputEvent(OutputEventInfo),
@@ -23,7 +23,7 @@ pub enum Event {
 }
 
 /// Data for `WorkspaceEvent`.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct WorkspaceEventInfo {
     /// The type of change.
     pub change: WorkspaceChange,
@@ -70,7 +70,7 @@ impl FromStr for WorkspaceEventInfo {
 }
 
 /// Data for `OutputEvent`.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct OutputEventInfo {
     /// The type of change.
     pub change: OutputChange,
@@ -93,7 +93,7 @@ impl FromStr for OutputEventInfo {
 }
 
 /// Data for `ModeEvent`.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ModeEventInfo {
     /// The name of current mode in use. It is the same as specified in config when creating a
     /// mode. The default mode is simply named default.
@@ -111,7 +111,7 @@ impl FromStr for ModeEventInfo {
 }
 
 /// Data for `WindowEvent`.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct WindowEventInfo {
     /// Indicates the type of change
     pub change: WindowChange,
@@ -150,7 +150,7 @@ impl FromStr for WindowEventInfo {
 }
 
 /// Data for `BarConfigEvent`.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct BarConfigEventInfo {
     /// The new i3 bar configuration.
     pub bar_config: reply::BarConfig,
@@ -169,7 +169,7 @@ impl FromStr for BarConfigEventInfo {
 /// Data for `BindingEvent`.
 ///
 /// Reports on the details of a binding that ran a command because of user input.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct BindingEventInfo {
     /// Indicates what sort of binding event was triggered (right now it will always be "run" but
     /// that may be expanded in the future).
@@ -220,7 +220,7 @@ impl FromStr for BindingEventInfo {
 }
 
 /// Data for `ShutdownEvent`.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 #[cfg(feature = "i3-4-14")]
 #[cfg_attr(feature = "dox", doc(cfg(feature = "i3-4-14")))]
 pub struct ShutdownEventInfo {
@@ -248,7 +248,7 @@ impl FromStr for ShutdownEventInfo {
 /// Less important types
 pub mod inner {
     /// The kind of workspace change.
-    #[derive(Debug, PartialEq)]
+    #[derive(Debug, PartialEq, Clone, Copy)]
     pub enum WorkspaceChange {
         Focus,
         Init,
@@ -263,7 +263,7 @@ pub mod inner {
     }
 
     /// The kind of output change.
-    #[derive(Debug, PartialEq)]
+    #[derive(Debug, PartialEq, Clone, Copy)]
     pub enum OutputChange {
         Unspecified,
         /// An OutputChange we don't support yet.
@@ -271,7 +271,7 @@ pub mod inner {
     }
 
     /// The kind of window change.
-    #[derive(Debug, PartialEq)]
+    #[derive(Debug, PartialEq, Clone, Copy)]
     pub enum WindowChange {
         /// The window has become managed by i3.
         New,
@@ -300,7 +300,7 @@ pub mod inner {
     }
 
     /// Either keyboard or mouse.
-    #[derive(Debug, PartialEq)]
+    #[derive(Debug, PartialEq, Clone, Copy)]
     pub enum InputType {
         Keyboard,
         Mouse,
@@ -309,7 +309,7 @@ pub mod inner {
     }
 
     /// Contains details about the binding that was run.
-    #[derive(Debug, PartialEq)]
+    #[derive(Debug, PartialEq, Clone)]
     pub struct Binding {
         /// The i3 command that is configured to run for this binding.
         pub command: String,
@@ -331,7 +331,7 @@ pub mod inner {
     }
 
     /// The kind of binding change.
-    #[derive(Debug, PartialEq)]
+    #[derive(Debug, PartialEq, Clone, Copy)]
     pub enum BindingChange {
         Run,
         /// A BindingChange we don't support yet.
@@ -339,7 +339,7 @@ pub mod inner {
     }
 
     /// The kind of shutdown change.
-    #[derive(Debug, PartialEq)]
+    #[derive(Debug, PartialEq, Clone, Copy)]
     #[cfg(feature = "i3-4-14")]
     #[cfg_attr(feature = "dox", doc(cfg(feature = "i3-4-14")))]
     pub enum ShutdownChange {

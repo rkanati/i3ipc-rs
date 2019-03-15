@@ -246,7 +246,7 @@ impl<'a> Iterator for EventIterator<'a> {
 }
 
 /// A subscription for `I3EventListener`
-#[derive(Debug)]
+#[derive(Debug, Eq, PartialEq, Hash, Clone, Copy)]
 pub enum Subscription {
     Workspace,
     Output,
